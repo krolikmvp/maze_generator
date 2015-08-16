@@ -15,16 +15,16 @@ public class Draw extends Applet implements Runnable {
 	private Graphics second;
 	private Image image;
 	private URL base;
-	Gen mazec;
+	Gen mazec; // glowny obiekt labiryntu
 
 	@Override
 	public void init() {
 		System.out.println("START");
-		mazec = new Gen(50, 50);
-		mazec.genMaze();
-		setSize(500, 500);
+		mazec = new Gen(100, 100); // tworzy tablice x na x
+		mazec.genMaze(); // generuje labirynt w tablicy
+		setSize(500, 500); // rozmiar ekranu
 		setBackground(Color.BLACK);
-		setFocusable(true);
+		setFocusable(true); // nie wiem
 		try {
 			base = getDocumentBase();
 		} catch (Exception e) {
@@ -49,30 +49,14 @@ public class Draw extends Applet implements Runnable {
 
 		for (int i = 0; i < mazec.getSizex(); i++) {
 			for (int j = 0; j < mazec.getSizey(); j++) {
-				//int[] array = { 0, 1, 2, 3 };
-				//ShuffleArray(array);
-				//switch (array[0]) {
 
-				//case 0:
-					g.setColor(Color.YELLOW);
-					//break;
-				//case 1:
-					//g.setColor(Color.RED);
-					//break;
-				//case 2:
-				//	g.setColor(Color.GREEN);
-					//break;
-				//case 3:
-				//	g.setColor(Color.BLUE);
-					//break;
-
-				//}
-
+					g.setColor(Color.YELLOW); // kolor sciezki zolty
+					
 				if (mazec.maze[i][j] == 1) {
-					g.fillRect(i*10 ,j *10 , 10, 10);
+					g.fillRect(i*10 ,j *10 , 10, 10); // rysuje sciezke sciezke// wspolrzedna x,y *10, rozmiar 10/10
 				} else {
-					g.setColor(Color.BLACK);
-					g.fillRect(i*10,j*10 , 10, 10);
+					g.setColor(Color.BLACK);// kolor czarny
+					g.fillRect(i*10,j*10 , 10, 10); // rysuje sciane
 				}
 			}
 		}
@@ -80,19 +64,9 @@ public class Draw extends Applet implements Runnable {
 		// super.paint(g);
 	}
 
-	private void ShuffleArray(int[] array) {
-		int index, temp;
-		Random random = new Random();
-		for (int i = array.length - 1; i > 0; i--) {
-			index = random.nextInt(i + 1);
-			temp = array[index];
-			array[index] = array[i];
-			array[i] = temp;
-		}
-	}
-
+	
 	@Override
-	public void update(Graphics g) {
+	public void update(Graphics g) {// nie wiem co to robi
 		if (image == null) {
 			image = createImage(this.getWidth(), this.getHeight());
 			second = image.getGraphics();

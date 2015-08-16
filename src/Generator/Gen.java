@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
+//////////////Klasy maski
 class topMask {
 	public int id = 0;
 	public static int[][] mask = { { 2, 2, 2 }, { 2, 2, 2 }, { 0, 0, 0 } };
@@ -25,20 +25,21 @@ class rightMask {
 	public int id = 3;
 	public static int[][] mask = { { 0, 2, 2 }, { 0, 2, 2 }, { 0, 2, 2 } };
 }
-
+//////////////Klasy maski - KONIEC
+/////////////Glowna klasa generatora
 public class Gen {
 
-	int[][] maze;
-	Random generator;
-	int sizex, sizey;
-	boolean flag;
+	int[][] maze;//glowna tablica przechowuje 0,1 (1 sciezka, 0 sciana)
+	Random generator;// generator liczb losowych
+	int sizex, sizey;//rozmiar labiryntu x,y
+	int depth;// zmienna do sprawdzania glebokosci rekurencji
 
 	public Gen(int x, int y) {
 		this.sizex = x;
 		this.sizey = y;
 		generator = new Random();
 		this.maze = new int[x][y];
-
+		this.depth = 0;
 		for (int i = 0; i < maze.length; i++) {
 			for (int j = 0; j < maze[i].length; j++) {
 				if (i == 0 || i == y - 1 || j == 0 || j == x - 1) {
@@ -52,7 +53,7 @@ public class Gen {
 		}
 
 	}
-
+//getery, setery
 	public int getSizex() {
 		return sizex;
 	}
@@ -71,17 +72,17 @@ public class Gen {
 
 	public void genMaze() {
 
-		int spos[] = { 5, 5 };
-		flag = false;
-		maze[5][5] = 1;
-		while (flag == false) {
+		int spos[] = { 5, 5 };//punkt startowy
+		maze[5][5] = 1;//punkt startowy -1 czyli odwiedzony
+		while (1 == 1) {
 
-			if (checkNeighbour(3, spos) == 0 || checkNeighbour(3, spos) == 1)
+			if (checkNeighbour(3, spos) == 0 || checkNeighbour(3, spos) == 1)//wykonuje rekurencujnie dopoki nie zwroci jakiejkolwiek wartosci
 				break;
 		}
 
 	}
-
+/////////////Glowna klasa generatora KONIEC
+	////////Funkcja do mieszania tablicy
 	private void ShuffleArray(int[] array) {
 		int index, temp;
 		Random random = new Random();
@@ -92,7 +93,8 @@ public class Gen {
 			array[i] = temp;
 		}
 	}
-
+	////////Funkcja do mieszania tablicy KONIEC
+	////////Funkcja do nakladania maski	
 	public int putMask(int[][] mask, int[] pos, int dir) {
 		int sum = 0;
 		// /top
@@ -136,79 +138,61 @@ public class Gen {
 		}
 		return sum;
 	}
-
+	////////Funkcja do nakladania maski	KONIEC
+	////////Funkcja sprawdzajaca sasiada
 	public int checkNeighbour(int dir, int[] pos) {
+		depth++;
+		System.out.println(depth);
 		int in = 0;
 		int result = 1;
 		int[] newpos = new int[2];
-		switch (dir) {
+		switch (dir) {//switch, ktory na podstawie dir(kierunku przesuniecia) naklada odpowiedznia maske, zeby sprawdzic czy nie ma kolizji
 		case 0:
 
 			if ((result = putMask(topMask.mask, pos, dir)) < 1) {
-				System.out.println("result :" + result + " oldposx " + pos[0]
-						+ "   oldposy" + pos[1]);
 				newpos[0] = pos[0];
 				newpos[1] = pos[1] - 1;
-				System.out.println("result :" + result + " posx " + newpos[0]
-						+ "   posy" + newpos[1]);
 			}
 			break;
 		case 1:
 			if ((result = putMask(bottomMask.mask, pos, dir)) < 1) {
-				System.out.println("result :" + result + " oldposx " + pos[0]
-						+ "   oldposy" + pos[1]);
 				newpos[0] = pos[0];
 				newpos[1] = pos[1] + 1;
-				System.out.println("result :" + result + " posx " + newpos[0]
-						+ "   posy" + newpos[1]);
 			}
 			break;
 		case 2:
 			if ((result = putMask(leftMask.mask, pos, dir)) < 1) {
-				System.out.println("result :" + result + " oldposx " + pos[0]
-						+ "   oldposy" + pos[1]);
 				newpos[0] = pos[0] - 1;
 				newpos[1] = pos[1];
-				System.out.println("result :" + result + " posx " + newpos[0]
-						+ "   posy" + newpos[1]);
 			}
 			break;
 		case 3:
 			if ((result = putMask(rightMask.mask, pos, dir)) < 1) {
-				System.out.println("result :" + result + " oldposx " + pos[0]
-						+ "   oldposy" + pos[1]);
 				newpos[0] = pos[0] + 1;
 				newpos[1] = pos[1];
-				System.out.println("result :" + result + " posx " + newpos[0]
-						+ "   posy" + newpos[1]);
 			}
 			break;
 		}
-
+		////Sprawdza czy nowa pozycja nie wychodzi za plansze
 		if (newpos[0] < 0 || newpos[1] < 0 || newpos[1] > sizey
 				|| newpos[0] > sizex) {
 			return 0;
 		}
+		///Jesli result >0 cofa siê (result>0 znaczy, ze maska zwrocila wartosc>0, czyli napotkala przeszkode)
 		if (result > 0) {
-			if (in == 0) {
-				return 0;
-			} else {
-				return 1;
-			}
+			return 1;
 
 		} else {
-			in++;
-			maze[newpos[0]][newpos[1]] = 1;
+			//Jesli nie napotkala przeszkody to losuje nowy kierunek 0 gora 1 dol 2 lewo 3 prawo
+			maze[newpos[0]][newpos[1]] = 1;//ustawia aktualna pozycje jako sciezke
 			int[] array = { 0, 1, 2, 3 };
 			ShuffleArray(array);
-			for (int i = 0; i < 4; ++i) {
-
-				checkNeighbour(array[i], newpos);
-
+			for (int i = 0; i < 4; ++i) {//4 kierunki
+				checkNeighbour(array[i], newpos);//reukrencyjna funkcja
 			}
 		}
 
 		return 1;
 	}
-
+	////////Funkcja sprawdzajaca sasiada KONIEC
 }
