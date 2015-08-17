@@ -69,6 +69,10 @@ public class Gen {
 	public void setSizey(int sizey) {
 		this.sizey = sizey;
 	}
+	
+	public int[][] getMaze(){
+		return maze;	
+	}
 
 	public void genMaze() {
 
@@ -142,7 +146,7 @@ public class Gen {
 	////////Funkcja sprawdzajaca sasiada
 	public int checkNeighbour(int dir, int[] pos) {
 		depth++;
-		System.out.println(depth);
+		//System.out.println(depth);
 		int in = 0;
 		int result = 1;
 		int[] newpos = new int[2];
