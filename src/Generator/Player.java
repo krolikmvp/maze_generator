@@ -19,20 +19,20 @@ public class Player {
 		return posY;
 	}
 	
-	public void moveRight() {
-		this.posX+=10;
+	public void moveRight(int x) {
+		this.posX+=x;
 	}
 
-	public void moveLeft() {
-		this.posX-=10;
+	public void moveLeft(int x) {
+		this.posX-=x;
 	}
 	
-	public void moveUp() {
-		posY-=10;;
+	public void moveUp(int y) {
+		posY-=y;
 	}
 
-	public void moveDown() {
-		posY+=10;
+	public void moveDown(int y) {
+		posY+=y;
 	}
 	
 }

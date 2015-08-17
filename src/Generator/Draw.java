@@ -15,16 +15,19 @@ import java.util.Random;
 
 public class Draw extends Applet implements Runnable, KeyListener {
 	
-	public static final int xMapSize = 40;
-	public static final int yMapSize = 40;
-	public static final int blockSize = 10;
+	public static final int xMapSize = 200;
+	public static final int yMapSize = 200;
+	public static final int blockSize = 5;
 	
-	private int[][] maze;
 	
 	
 	private Graphics second;
 	private Image image;
 	private URL base;
+	private int[][] maze;
+	private int[][] shadow;
+	
+	
 	Gen mazec; // glowny obiekt labiryntu
 	Player player;
 
@@ -35,7 +38,7 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		mazec = new Gen(xMapSize, yMapSize); // tworzy tablice x na x
 		mazec.genMaze(); // generuje labirynt w tablicy
 		maze = mazec.getMaze();
-		setSize(500, 500); // rozmiar ekranu
+		setSize(xMapSize*blockSize, yMapSize*blockSize); // rozmiar ekranu
 		setBackground(Color.BLACK);
 		setFocusable(true); // nie wiem
 		try {
@@ -46,6 +49,11 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle("Maze draw");
 		player = new Player(20, 20);
+		while(maze[player.getPosX()/blockSize][player.getPosY()/blockSize] == 0)
+		{
+			player.moveRight(blockSize);
+			player.moveDown(blockSize);			
+		}
 		super.init();
 	}
 
@@ -111,35 +119,35 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:	
 			System.out.println("posY:");
-			System.out.println(player.getPosY()/10-1);
+			System.out.println(player.getPosY()/blockSize-1);
 			//System.out.println("maze:");
-			System.out.println(maze[player.getPosX()/10][player.getPosY()/10-1]);
-			if(maze[player.getPosX()/10][player.getPosY()/10-1] == 1 && player.getPosY()-blockSize>=0){
-				player.moveUp();
+			System.out.println(maze[player.getPosX()/blockSize][player.getPosY()/blockSize-1]);
+			if(maze[player.getPosX()/blockSize][player.getPosY()/blockSize-1] == 1 && player.getPosY()-blockSize>=0){
+				player.moveUp(blockSize);
 				System.out.println(player.getPosY());
 				repaint();
 			}
 			break;
 
 		case KeyEvent.VK_DOWN:
-			if(maze[player.getPosX()/10][player.getPosY()/10+1] == 1 && player.getPosY()+blockSize>=0){
-			player.moveDown();
+			if(maze[player.getPosX()/blockSize][player.getPosY()/blockSize+1] == 1 && player.getPosY()+blockSize>=0){
+			player.moveDown(blockSize);
 			System.out.println(player.getPosY());
 			repaint();
 			}
 			break;
 
 		case KeyEvent.VK_LEFT:
-			if(maze[player.getPosX()/10-1][player.getPosY()/10] == 1 && player.getPosY()-blockSize>=0){
-				player.moveLeft();
+			if(maze[player.getPosX()/blockSize-1][player.getPosY()/blockSize] == 1 && player.getPosY()-blockSize>=0){
+				player.moveLeft(blockSize);
 				System.out.println(player.getPosX());
 				repaint();
 			}
 			break;
 
 		case KeyEvent.VK_RIGHT:
-			if(maze[player.getPosX()/10+1][player.getPosY()/10] == 1 && player.getPosY()-blockSize>=0){
-			player.moveRight();
+			if(maze[player.getPosX()/blockSize+1][player.getPosY()/blockSize] == 1 && player.getPosY()-blockSize>=0){
+			player.moveRight(blockSize);
 			System.out.println(player.getPosX());
 			repaint();
 			break;
