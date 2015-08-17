@@ -45,7 +45,7 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		}
 		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle("Maze draw");
-		player = new Player(0, 0);
+		player = new Player(20, 20);
 		super.init();
 	}
 
@@ -113,8 +113,8 @@ public class Draw extends Applet implements Runnable, KeyListener {
 			System.out.println("posY:");
 			System.out.println(player.getPosY()/10-1);
 			//System.out.println("maze:");
-			System.out.println(maze[player.getPosY()/10-1][player.getPosY()/10]);
-			if(maze[player.getPosY()/10-1][player.getPosY()/10] == 1 && player.getPosY()-blockSize>=0){
+			System.out.println(maze[player.getPosX()/10][player.getPosY()/10-1]);
+			if(maze[player.getPosX()/10][player.getPosY()/10-1] == 1 && player.getPosY()-blockSize>=0){
 				player.moveUp();
 				System.out.println(player.getPosY());
 				repaint();
@@ -122,7 +122,7 @@ public class Draw extends Applet implements Runnable, KeyListener {
 			break;
 
 		case KeyEvent.VK_DOWN:
-			if(player.getPosY()+blockSize<=yMapSize*blockSize-blockSize){ //?? zamiast *blockSize mo¿e byæ sta³e 10, "zmiana rozmiaru bloku"
+			if(maze[player.getPosX()/10][player.getPosY()/10+1] == 1 && player.getPosY()+blockSize>=0){
 			player.moveDown();
 			System.out.println(player.getPosY());
 			repaint();
@@ -130,7 +130,7 @@ public class Draw extends Applet implements Runnable, KeyListener {
 			break;
 
 		case KeyEvent.VK_LEFT:
-			if(player.getPosX()-blockSize>=0){
+			if(maze[player.getPosX()/10-1][player.getPosY()/10] == 1 && player.getPosY()-blockSize>=0){
 				player.moveLeft();
 				System.out.println(player.getPosX());
 				repaint();
@@ -138,7 +138,7 @@ public class Draw extends Applet implements Runnable, KeyListener {
 			break;
 
 		case KeyEvent.VK_RIGHT:
-			if(player.getPosX()+blockSize<=xMapSize*blockSize-blockSize){ //?? zamiast *blockSize mo¿e byæ sta³e 10, "zmiana rozmiaru bloku"
+			if(maze[player.getPosX()/10+1][player.getPosY()/10] == 1 && player.getPosY()-blockSize>=0){
 			player.moveRight();
 			System.out.println(player.getPosX());
 			repaint();
