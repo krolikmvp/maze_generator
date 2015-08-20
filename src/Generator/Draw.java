@@ -7,7 +7,10 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.applet.Applet;
+<<<<<<< HEAD
 import java.io.IOException;
+=======
+>>>>>>> ae411162d745b3929333a38231c9dc6bc42ac384
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,19 +19,36 @@ import java.util.Random;
 
 public class Draw extends Applet implements Runnable, KeyListener {
 	
+<<<<<<< HEAD
 	public static final int xMapSize = 40;
 	public static final int yMapSize = 40;
 	public static final int blockSize = 20;
 	
 	private int[][] maze;
+=======
+	public static final int xMapSize = 200;
+	public static final int yMapSize = 200;
+	public static final int blockSize = 5;
+	
+>>>>>>> ae411162d745b3929333a38231c9dc6bc42ac384
 	
 	
 	private Graphics second;
 	private Image image;
 	private URL base;
+<<<<<<< HEAD
 	Gen mazec; // glowny obiekt labiryntu
 	Player player;
 	
+=======
+	private int[][] maze;
+	private int[][] shadow;
+	
+	
+	Gen mazec; // glowny obiekt labiryntu
+	Player player;
+
+>>>>>>> ae411162d745b3929333a38231c9dc6bc42ac384
 	@Override
 	public void init() {
 		System.out.println("START");
@@ -36,12 +56,16 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		mazec = new Gen(xMapSize, yMapSize); // tworzy tablice x na x
 		mazec.genMaze(); // generuje labirynt w tablicy
 		maze = mazec.getMaze();
+<<<<<<< HEAD
 		try {
 			MapDraw drawer=new MapDraw(maze,"test.png");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		setSize(500, 500); // rozmiar ekranu
+=======
+		setSize(xMapSize*blockSize, yMapSize*blockSize); // rozmiar ekranu
+>>>>>>> ae411162d745b3929333a38231c9dc6bc42ac384
 		setBackground(Color.BLACK);
 		setFocusable(true); // nie wiem
 		try {
@@ -51,7 +75,16 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		}
 		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle("Maze draw");
+<<<<<<< HEAD
 		player = new Player(2*blockSize, 2*blockSize);
+=======
+		player = new Player(20, 20);
+		while(maze[player.getPosX()/blockSize][player.getPosY()/blockSize] == 0)
+		{
+			player.moveRight(blockSize);
+			player.moveDown(blockSize);			
+		}
+>>>>>>> ae411162d745b3929333a38231c9dc6bc42ac384
 		super.init();
 	}
 
@@ -74,7 +107,11 @@ public class Draw extends Applet implements Runnable, KeyListener {
 					g.setColor(Color.YELLOW); // kolor sciezki zolty
 					
 				if (mazec.maze[i][j] == 1) {
+<<<<<<< HEAD
 					g.fillRect(i*blockSize,j *blockSize , blockSize, blockSize); // rysuje sciezke sciezke// wspolrzedna x,y *10, rozmiar 10/10
+=======
+					g.fillRect(i*blockSize ,j *blockSize , blockSize, blockSize); // rysuje sciezke sciezke// wspolrzedna x,y *10, rozmiar 10/10
+>>>>>>> ae411162d745b3929333a38231c9dc6bc42ac384
 				} else {
 					g.setColor(Color.BLACK);// kolor czarny
 					g.fillRect(i*blockSize,j*blockSize , blockSize, blockSize); // rysuje sciane
@@ -117,9 +154,15 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:	
 			System.out.println("posY:");
+<<<<<<< HEAD
 			System.out.println(player.getPosY()/10-1);
 			//System.out.println("maze:");
 			System.out.println(maze[player.getPosX()/10][player.getPosY()/10-1]);
+=======
+			System.out.println(player.getPosY()/blockSize-1);
+			//System.out.println("maze:");
+			System.out.println(maze[player.getPosX()/blockSize][player.getPosY()/blockSize-1]);
+>>>>>>> ae411162d745b3929333a38231c9dc6bc42ac384
 			if(maze[player.getPosX()/blockSize][player.getPosY()/blockSize-1] == 1 && player.getPosY()-blockSize>=0){
 				player.moveUp(blockSize);
 				System.out.println(player.getPosY());
