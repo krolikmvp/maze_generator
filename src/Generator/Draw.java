@@ -21,21 +21,17 @@ public class Draw extends Applet implements Runnable, KeyListener {
 	public static final int xMapSize = 40;
 	public static final int yMapSize = 40;
 	public static final int blockSize = 20;
-	
+
 	private int[][] maze;
 
-
-	
 	
 	private Graphics second;
 	private Image image;
-	private URL base;
 	private Gen mazec; // glowny obiekt labiryntu
 	private Player player;
 	private MapDraw drawer;
 	private BufferedImage board;
-	
-	private int[][] shadow;
+
 	
 
 	@Override
@@ -52,17 +48,13 @@ public class Draw extends Applet implements Runnable, KeyListener {
 			e1.printStackTrace();
 		}
 		board=drawer.getMap();
-		setSize(500, 500); // rozmiar ekranu
+		//setSize(500, 500); // rozmiar ekranu
 
 		setSize(xMapSize*blockSize, yMapSize*blockSize); // rozmiar ekranu
 
 		setBackground(Color.BLACK);
 		setFocusable(true); // nie wiem
-		try {
-			base = getDocumentBase();
-		} catch (Exception e) {
 
-		}
 		Frame frame = (Frame) this.getParent().getParent();
 		frame.setTitle("Maze draw");
 
@@ -91,9 +83,7 @@ public class Draw extends Applet implements Runnable, KeyListener {
 					
 				if (mazec.maze[i][j] == 1) {
 
-					g.fillRect(i*blockSize,j *blockSize , blockSize, blockSize); // rysuje sciezke sciezke// wspolrzedna x,y *10, rozmiar 10/10
-
-					g.fillRect(i*blockSize ,j *blockSize , blockSize, blockSize); // rysuje sciezke sciezke// wspolrzedna x,y *10, rozmiar 10/10
+					//g.fillRect(i*blockSize,j *blockSize , blockSize, blockSize); // rysuje sciezke sciezke// wspolrzedna x,y *10, rozmiar 10/10
 
 				} else {
 					g.setColor(Color.BLACK);// kolor czarny
@@ -103,8 +93,8 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		}
 		
 		g.setColor(new Color(255, 0, 0)); //set color to red (r, g, b) 
-		g.drawImage(board, 0, 0, this);
-		g.fillRect(player.getPosX(), player.getPosY(), blockSize, blockSize);
+		g.drawImage(board,-player.getPosX()+2*blockSize, -player.getPosY()+2*blockSize, this);
+		g.fillRect(2*blockSize, 2*blockSize, blockSize, blockSize);
 		// super.paint(g);
 	}
 
@@ -136,15 +126,15 @@ public class Draw extends Applet implements Runnable, KeyListener {
 
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:	
-			System.out.println("posY:");
+			//System.out.println("posY:");
 
-			System.out.println(player.getPosY()/10-1);
+			//System.out.println(player.getPosY()/10-1);
 			//System.out.println("maze:");
-			System.out.println(maze[player.getPosX()/10][player.getPosY()/10-1]);
+			//System.out.println(maze[player.getPosX()/10][player.getPosY()/10-1]);
 
-			System.out.println(player.getPosY()/blockSize-1);
+			//System.out.println(player.getPosY()/blockSize-1);
 			//System.out.println("maze:");
-			System.out.println(maze[player.getPosX()/blockSize][player.getPosY()/blockSize-1]);
+			//System.out.println(maze[player.getPosX()/blockSize][player.getPosY()/blockSize-1]);
 
 			if(maze[player.getPosX()/blockSize][player.getPosY()/blockSize-1] == 1 && player.getPosY()-blockSize>=0){
 				player.moveUp(blockSize);
