@@ -93,8 +93,8 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		}
 		
 		g.setColor(new Color(255, 0, 0)); //set color to red (r, g, b) 
-		g.drawImage(board,-player.getPosX()+2*blockSize, -player.getPosY()+2*blockSize, this);
-		g.fillRect(2*blockSize, 2*blockSize, blockSize, blockSize);
+		g.drawImage(board,-player.getPosX()+(xMapSize/2)*blockSize, -player.getPosY()+(xMapSize/2)*blockSize, this);
+		g.fillRect((xMapSize/2)*blockSize, (xMapSize/2)*blockSize, blockSize, blockSize);
 		// super.paint(g);
 	}
 
