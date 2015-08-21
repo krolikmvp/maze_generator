@@ -6,10 +6,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.applet.Applet;
-
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,14 +30,13 @@ public class Draw extends Applet implements Runnable, KeyListener {
 	private Graphics second;
 	private Image image;
 	private URL base;
-
+	private Gen mazec; // glowny obiekt labiryntu
+	private Player player;
+	private MapDraw drawer;
+	private BufferedImage board;
 	
 	private int[][] shadow;
 	
-	
-	Gen mazec; // glowny obiekt labiryntu
-	Player player;
-
 
 	@Override
 	public void init() {
@@ -49,10 +47,11 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		maze = mazec.getMaze();
 
 		try {
-			MapDraw drawer=new MapDraw(maze,"test.png");
+			drawer=new MapDraw(maze,"test.png");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		board=drawer.getMap();
 		setSize(500, 500); // rozmiar ekranu
 
 		setSize(xMapSize*blockSize, yMapSize*blockSize); // rozmiar ekranu
@@ -83,7 +82,7 @@ public class Draw extends Applet implements Runnable, KeyListener {
 	@Override
 	public void paint(Graphics g) {
 
-		
+	
 		
 		for (int i = 0; i < mazec.getSizex(); i++) {
 			for (int j = 0; j < mazec.getSizey(); j++) {
@@ -104,8 +103,8 @@ public class Draw extends Applet implements Runnable, KeyListener {
 		}
 		
 		g.setColor(new Color(255, 0, 0)); //set color to red (r, g, b) 
+		g.drawImage(board, 0, 0, this);
 		g.fillRect(player.getPosX(), player.getPosY(), blockSize, blockSize);
-
 		// super.paint(g);
 	}
 
